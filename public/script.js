@@ -38,14 +38,17 @@ const getMovies = async () => {
   }
 };
 
-getMovies()
 const getMovieInfo = async (movie) => {
   const movieId = imovie.id;
-  movieEndpoint = `/movie/${movieId}`
-  const requestParams = await fetch(`?api_key=${tmbKey}`);
+  const movieEndpoint = `/movie/${movieId}`
+  const requestParams = `?api_key=${tmbKey}`;
   const urlToFetch = `${tmdbBaseUrl}${movieEndpoint}${requestParams}`;
   try {
-    const response = await fetch(urlToFetch)
+    const response = await fetch(urlToFetch);
+    if (response.ok) {
+      const jsonResponse = await response.json();
+      const movieInfo = jsonResponse;
+    }
   } catch (error){
     console.log(error)
   }
