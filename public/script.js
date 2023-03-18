@@ -11,6 +11,7 @@ const getGenres = async () => {
     const response = await fetch(urlToFetch);
     if (response.ok) {
       const jsonResponse = await response.json();
+      const genres = await jsonResponse.genres
       return genres;
     }
   } catch (error) {
@@ -21,15 +22,15 @@ const getGenres = async () => {
 const getMovies = async () => {
   const selectedGenre = getSelectedGenre();
   const discoverMovieEndpoint = "/discover/movie";
-  const requestParams = `?api_key=${tmdbKey}&with_genres${selectedGenre}`;
+  const requestParams = `?api_key=${tmdbKey}&with_genre${selectedGenre}`;
   const urlToFetch = `${tmdbBaseUrl}${discoverMovieEndpoint}${requestParams}`;
 
-  try {
+  try{
     const response = await fetch(urlToFetch);
 
     if (response.ok) {
       const jsonResponse = await response.json();
-      const movies = response.json;
+      const movies = jsonResponse.results;
       return movies;
     }
   } catch (error) {
@@ -62,7 +63,7 @@ const showRandomMovie = async () => {
   }
 
   const movies = await getMovies();
-  const randomMovie = getRandomMovies(movies);
+  const randomMovie = getRandomMovie(movies);
   const info = await getMovieInfo(randomMovie);
   displayMovie(info);
 };
